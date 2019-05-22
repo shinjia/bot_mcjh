@@ -25,5 +25,9 @@
 	<preference name="orientation" value="portrait" />
 
 	<!-- 加入其它plugin設定 -->
+	<platform name="android">
+    	<preference name="android-targetSdkVersion" value="26" />
+	</platform>
+	
 	
 </widget>
