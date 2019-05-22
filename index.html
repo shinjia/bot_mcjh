@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+<title>Bot</title>
+</head>
+
+<body>
+<div class="container">
+
+<h1>明志國中機器人控制程式</h1>
+
+  <p>
+  	Bot IP: <input type="text" id="bot_ip" value="192.168.0.194">
+  	<input type="button" id="btn_assignIP" value="設定機器人IP" class="btn btn-success">
+  </p>
+
+<h2>點頭搖頭</h2>
+<button id="btn_nod" class="btn btn-primary">點頭 (nod)</button>
+<button id="btn_shake" class="btn btn-primary">搖頭 (shake)</button>
+
+<h2>看哪裡</h2>
+<button id="btn_lookLR" class="btn btn-info">左看右看 (lookLR)</button>
+<button id="btn_lookUD" class="btn btn-info">上看下看 (lookUD)</button>
+<br />
+
+<h2>轉頭運動</h2>
+<button id="btn_round1" class="btn btn-info">順向繞圈 (round1)</button>
+<button id="btn_round2" class="btn btn-info">反向繞圈 (round2)</button>
+<br />
+
+<h2>搖頭晃腦</h2>
+<button id="btn_zigzag1" class="btn btn-warning">Z字型水平 (zigzag1)</button>
+<button id="btn_zigzag2" class="btn btn-warning">Z字型垂直 (zigzag2)</button>
+<br />
+
+<h2>跟著我的指示</h2>
+<input type="text" id="str_path" value="12579">
+<button id="btn_path" class="btn btn-danger">指定路徑 (path)</button>
+<br />
+
+<h2>九宮格到定點</h2>
+<button id="btn_g91" class="btn btn-primary">九宮格 (1)</button>
+<button id="btn_g92" class="btn btn-primary">九宮格 (2)</button>
+<button id="btn_g93" class="btn btn-primary">九宮格 (3)</button><br/>
+<button id="btn_g94" class="btn btn-primary">九宮格 (4)</button>
+<button id="btn_g95" class="btn btn-primary">九宮格 (5)</button>
+<button id="btn_g96" class="btn btn-primary">九宮格 (6)</button><br/>
+<button id="btn_g97" class="btn btn-primary">九宮格 (7)</button>
+<button id="btn_g98" class="btn btn-primary">九宮格 (8)</button>
+<button id="btn_g99" class="btn btn-primary">九宮格 (9)</button>
+
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="jquery/jquery.min.js"></script>
+<script src="jquery/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+var host = document.getElementById('bot_ip').value;
+var url_nod   = 'http://' + host + '/action?a=nod';
+var url_shake = 'http://' + host + '/action?a=shake';
+console.log(url_shake);
+
+
+document.getElementById('btn_assignIP').onclick=function(){
+
+  host = document.getElementById('bot_ip').value;
+};
+
+
+document.getElementById('btn_nod').onclick=function(){
+  req(url_nod, done);
+};
+
+document.getElementById('btn_shake').onclick=function(){
+  req(url_shake, done);
+};
+
+
+document.getElementById('btn_path').onclick=function(){
+  var ext = document.getElementById('str_path').value;
+ req(get_url('path'+ext), done);
+};
+
+
+document.getElementById('btn_lookLR').onclick=function(){ req(get_url('lookLR'), done); };
+document.getElementById('btn_lookUD').onclick=function(){ req(get_url('lookUD'), done); };
+
+
+document.getElementById('btn_round1').onclick=function(){ req(get_url('round1'), done); };
+document.getElementById('btn_round2').onclick=function(){ req(get_url('round2'), done); };
+
+document.getElementById('btn_zigzag1').onclick=function(){ req(get_url('zigzag1'), done); };
+document.getElementById('btn_zigzag2').onclick=function(){ req(get_url('zigzag2'), done); };
+
+document.getElementById('btn_g91').onclick=function(){ req(get_url('g91'), done); };
+document.getElementById('btn_g92').onclick=function(){ req(get_url('g92'), done); };
+document.getElementById('btn_g93').onclick=function(){ req(get_url('g93'), done); };
+document.getElementById('btn_g94').onclick=function(){ req(get_url('g94'), done); };
+document.getElementById('btn_g95').onclick=function(){ req(get_url('g95'), done); };
+document.getElementById('btn_g96').onclick=function(){ req(get_url('g96'), done); };
+document.getElementById('btn_g97').onclick=function(){ req(get_url('g97'), done); };
+document.getElementById('btn_g98').onclick=function(){ req(get_url('g98'), done); };
+document.getElementById('btn_g99').onclick=function(){ req(get_url('g99'), done); };
+
+
+function get_url(na)
+{
+   var host = document.getElementById('bot_ip').value;
+   var url_ret = 'http://' + host + '/action?a=' + na;
+   console.log('url='+ url_ret);
+   return url_ret;
+}
+
+
+function req(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    console.log(callback);
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+var done = function ()
+{
+  console.log('run me');
+}
+</script>
+</body>
+</html>
